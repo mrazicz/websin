@@ -3,7 +3,7 @@
 
 require 'slop'
 require 'thin'
-require_relative '../app.rb'
+require_relative '../lib/app.rb'
 
 Slop.parse(arguments: true) do
   banner "Usage: websin -d PATH_TO_VIEWS_DIR [-p PORT]"

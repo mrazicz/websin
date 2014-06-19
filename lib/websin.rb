@@ -3,6 +3,7 @@
 require 'bundler'
 
 Bundler.require
+require 'sinatra/base'
 
 class WebSin < Sinatra::Base
   enable :sessions

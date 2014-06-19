@@ -1,3 +1,3 @@
-require './app.rb'
+require './lib/app.rb'
 
 run WebSin
