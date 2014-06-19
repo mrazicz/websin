@@ -17,8 +17,10 @@ class WebSin < Sinatra::Base
       Dir[File.join(settings.views, path, "#{name}.*")].each do |file|
         ext  = File.extname(file)
         case ext
-        when '.sass', '.scss' then return Sass.compile_file(file)
-        when '.js', '.css'    then return File.read(file)
+        when '.sass', '.scss'
+          return Sass.compile_file(file)
+        when '.js', '.css'
+          return File.read(file)
         when '.coffee'
           return CoffeeScript.compile File.read(file)
         else raise RuntimeError, "File #{File.join(path, _name)} no found!"
@@ -36,7 +38,12 @@ class WebSin < Sinatra::Base
     end
     
     case ext
-    when '.css', '.js' then render_css_or_js(name, path)
+    when '.css'
+      content_type :css
+      render_css_or_js(name, path)
+    when '.js'
+      content_type :js
+      render_css_or_js(name, path)
     else slim :"#{path}/#{name[0] ? name : 'index'}"
     end
   end
