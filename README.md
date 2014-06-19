@@ -1,6 +1,6 @@
 # websin
 
-Simple gem for easy slim template coding. Uses sinatra, thin and sinatra-sprockets.
+Simple gem for easy slim template coding. Uses sinatra and thin as server. Additionaly supports slim, sass, scss and coffee.
 
 Usage:
 

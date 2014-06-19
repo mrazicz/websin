@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+# encoding: utf-8
+
+require 'slop'
+require 'thin'
+require_relative '../app.rb'
+
+Slop.parse(arguments: true) do
+  banner "Usage: websin -d PATH_TO_VIEWS_DIR [-p PORT]"
+
+  on 'd', 'dir', 'relative or absolute path to views dir'
+  on 'p', 'port', 'port option for thin'
+
+  run do |opts, args|
+    WebSin.set(:views, File.absolute_path(opts[:dir]))
+    Thin::Runner.new(["start", "-p#{opts[:port] || 3000}"]).run!
+  end
+end
