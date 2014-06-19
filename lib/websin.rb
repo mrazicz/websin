@@ -30,7 +30,7 @@ class WebSin < Sinatra::Base
   end
 
   get '/*' do
-    ext        = File.extname(params[:captures].first)
+    ext        = File.extname(params[:captures].first).downcase
     if params[:captures].first.end_with?('/')
       path, name = params[:captures].first, 'index'
     else
@@ -44,6 +44,9 @@ class WebSin < Sinatra::Base
     when '.js'
       content_type :js
       render_css_or_js(name, path)
+    when '.png', '.jpg', '.jpeg', '.gif'
+      content_type 'image'
+      File.read(File.join(setting.views, params[:capture]))
     else slim :"#{path}/#{name[0] ? name : 'index'}"
     end
   end
