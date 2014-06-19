@@ -3,16 +3,21 @@
 
 require 'slop'
 require 'thin'
-require_relative '../lib/app.rb'
+require_relative '../lib/websin.rb'
 
-Slop.parse(arguments: true) do
+Slop.parse(help: true) do
   banner "Usage: websin -d PATH_TO_VIEWS_DIR [-p PORT]"
 
-  on 'd', 'dir', 'relative or absolute path to views dir'
-  on 'p', 'port', 'port option for thin'
+  on :d=, :dir=, 'relative or absolute path to views dir'
+  on :p=, :port=, 'port option for thin'
 
   run do |opts, args|
-    WebSin.set(:views, File.absolute_path(opts[:dir]))
-    Thin::Runner.new(["start", "-p#{opts[:port] || 3000}"]).run!
+    raise RuntimeError, "dir option is required!" unless opts[:dir]
+    WebSin.set(:views, File.expand_path(opts[:dir], Dir.pwd))
+    dirname = File.expand_path('..', File.dirname(__FILE__))
+    Thin::Runner.
+      new(["start", "-p#{opts[:port] || 3000}", "-R#{dirname}/config.ru"]).
+      run!
   end
 end
+

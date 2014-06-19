@@ -1,9 +1,9 @@
 # encoding: utf-8
 
-require 'bundler'
-
-Bundler.require
 require 'sinatra/base'
+require 'slim'
+require 'coffee'
+require 'sass'
 
 class WebSin < Sinatra::Base
   enable :sessions
@@ -14,11 +14,11 @@ class WebSin < Sinatra::Base
   helpers do
     def render_css_or_js _name, path
       name = File.basename(_name, '.*')
-      Dir[File.join(settings.root, 'views', path, "#{name}.*")].each do |file|
+      Dir[File.join(settings.views, path, "#{name}.*")].each do |file|
         ext  = File.extname(file)
         case ext
-        when '.sass', '.scss', '.css' then return Sass.compile_file(file)
-        when '.js'                    then return File.read(file)
+        when '.sass', '.scss' then return Sass.compile_file(file)
+        when '.js', '.css'    then return File.read(file)
         when '.coffee'
           return CoffeeScript.compile File.read(file)
         else raise RuntimeError, "File #{File.join(path, _name)} no found!"

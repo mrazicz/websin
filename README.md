@@ -5,5 +5,5 @@ Simple gem for easy slim template coding. Uses sinatra and thin as server. Addit
 Usage:
 
 ```bash
-websin server -v PATH_TO_VIEWS_DIR [-p PORT]
+websin -d PATH_TO_VIEWS_DIR [-p PORT]
 ```
