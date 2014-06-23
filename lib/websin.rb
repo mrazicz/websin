@@ -45,9 +45,11 @@ class WebSin < Sinatra::Base
       content_type :js
       render_css_or_js(name, path)
     when '.png', '.jpg', '.jpeg', '.gif'
-      content_type 'image'
-      File.read(File.join(setting.views, params[:capture]))
-    else slim :"#{path}/#{name[0] ? name : 'index'}"
+      content_type "image/#{ext[1..-1]}"
+      File.read(File.join(settings.views, params[:captures]))
+    when '' then slim :"#{path}/#{name[0] ? name : 'index'}"
+    else
+      File.read(File.join(settings.views, params[:captures]))
     end
   end
 end
