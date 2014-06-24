@@ -47,7 +47,8 @@ class WebSin < Sinatra::Base
     when '.png', '.jpg', '.jpeg', '.gif'
       content_type "image/#{ext[1..-1]}"
       File.read(File.join(settings.views, params[:captures]))
-    when '' then slim :"#{path}/#{name[0] ? name : 'index'}"
+    when ''
+      slim :"#{path}/#{name[0] ? name : 'index'}", layout: params[:layout].to_sym || :layout
     else
       File.read(File.join(settings.views, params[:captures]))
     end
